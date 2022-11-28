@@ -22,8 +22,15 @@ class ProductViewModel: ViewModel() {
 
             }
             .addOnFailureListener {
-                Log.e("@@@@@",""+it?.message)
+                Log.e("@@@@@",""+it.message)
             }
+    }
+    fun addProduct(name: String,price: Number,result: (value: String)->Unit){
+        Firebase.firestore.collection("products")
+            .add(hashMapOf("name" to name, "price" to price))
+            .addOnCompleteListener {
+                if (it.isSuccessful)result("success") else result("failed")}
+
     }
 
     data class Product(
